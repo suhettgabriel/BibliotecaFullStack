@@ -10,6 +10,7 @@ namespace Biblioteca.Infrastructure.Persistence
         }
 
         public DbSet<Genre> Genres { get; set; }
+        public DbSet<Author> Authors { get; set; } 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
