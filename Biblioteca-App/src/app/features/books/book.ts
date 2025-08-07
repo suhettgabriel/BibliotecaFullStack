@@ -10,16 +10,19 @@ export interface Book {
   title: string;
   year: number;
   authorId: number;
+  authorName: string;
   genreId: number;
-  author?: Author;
-  genre?: Genre;
+  genreName: string;
 }
 
 export interface BookRequest {
+  id: number;
   title: string;
   year: number;
   authorId: number;
+  authorName: string;
   genreId: number;
+  genreName: string;
 }
 
 @Injectable({
