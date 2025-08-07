@@ -1,11 +1,13 @@
 ﻿using Biblioteca.Application.DTOs.Genre;
 using Biblioteca.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Biblioteca.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class GenresController : ControllerBase
     {
         private readonly IGenreService _genreService;

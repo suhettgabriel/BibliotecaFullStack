@@ -1,11 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 export interface Genre {
   id: number;
   name: string;
+  books?: any[];
+  bookCount?: number;
 }
 
 export type GenreRequest = Omit<Genre, 'id'>;
@@ -18,7 +20,12 @@ export class GenreService {
   private apiUrl = `${environment.apiUrl}/genres`;
 
   getAll(): Observable<Genre[]> {
-    return this.http.get<Genre[]>(this.apiUrl);
+    return this.http.get<Genre[]>(this.apiUrl).pipe(
+      map(genres => genres.map(genre => ({
+        ...genre,
+        bookCount: genre.books ? genre.books.length : 0
+      }))
+    ));
   }
 
   getById(id: number): Observable<Genre> {

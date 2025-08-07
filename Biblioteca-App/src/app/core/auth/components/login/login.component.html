@@ -1,0 +1,46 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <h2><i class="fas fa-sign-in-alt"></i> Login</h2>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-field">
+        <label for="username">Nome de Usuário</label>
+        <input type="text" id="username" formControlName="username" placeholder="Seu nome de usuário">
+        <div *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched" class="error-message">
+          <small *ngIf="loginForm.get('username')?.errors?.['required']">
+            <i class="fas fa-exclamation-circle"></i> Nome de usuário é obrigatório
+          </small>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="password">Senha</label>
+        <input type="password" id="password" formControlName="password" placeholder="Sua senha">
+        <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error-message">
+          <small *ngIf="loginForm.get('password')?.errors?.['required']">
+            <i class="fas fa-exclamation-circle"></i> Senha é obrigatória
+          </small>
+          <small *ngIf="loginForm.get('password')?.errors?.['minlength']">
+            <i class="fas fa-exclamation-circle"></i> Mínimo 6 caracteres
+          </small>
+        </div>
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid || isLoading">
+          <span *ngIf="!isLoading">Entrar</span>
+          <span *ngIf="isLoading">
+            <i class="fas fa-spinner fa-spin"></i> Carregando...
+          </span>
+        </button>
+        <a routerLink="/register" class="btn btn-link">
+          Não tem conta? Registre-se
+        </a>
+      </div>
+    </form>
+  </div>
+</div>

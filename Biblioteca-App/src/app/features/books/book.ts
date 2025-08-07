@@ -13,6 +13,7 @@ export interface Book {
   authorName: string;
   genreId: number;
   genreName: string;
+  bookCount?: number;
 }
 
 export interface BookRequest {
@@ -23,6 +24,7 @@ export interface BookRequest {
   authorName: string;
   genreId: number;
   genreName: string;
+  bookCount?: number;
 }
 
 @Injectable({
