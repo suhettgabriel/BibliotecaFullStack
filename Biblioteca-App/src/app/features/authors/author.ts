@@ -1,11 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 export interface Author {
   id: number;
   name: string;
+  books?: any[];
+  bookCount?: number;
 }
 
 export type AuthorRequest = Omit<Author, 'id'>;
@@ -17,9 +19,15 @@ export class AuthorService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/authors`;
 
-  getAll(): Observable<Author[]> {
-    return this.http.get<Author[]>(this.apiUrl);
-  }
+// src/app/features/authors/author.ts (serviço)
+getAll(): Observable<Author[]> {
+  return this.http.get<Author[]>(this.apiUrl).pipe(
+    map(authors => authors.map(author => ({
+      ...author,
+      bookCount: author.books?.length || 0
+    })))
+  );
+}
 
   getById(id: number): Observable<Author> {
     return this.http.get<Author>(`${this.apiUrl}/${id}`);

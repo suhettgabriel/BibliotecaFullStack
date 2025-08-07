@@ -1,0 +1,79 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <h2><i class="fas fa-user-plus"></i> Criar Nova Conta</h2>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="form-field">
+        <label for="username">
+          <i class="fas fa-user"></i> Nome de Usuário
+        </label>
+        <input
+          type="text"
+          id="username"
+          formControlName="username"
+          placeholder="Digite seu nome de usuário"
+          [class.invalid]="registerForm.get('username')?.invalid && registerForm.get('username')?.touched"
+        >
+        <div
+          *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched"
+          class="error-message"
+        >
+          <small *ngIf="registerForm.get('username')?.errors?.['required']">
+            <i class="fas fa-exclamation-circle"></i> Nome de usuário é obrigatório
+          </small>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="password">
+          <i class="fas fa-lock"></i> Senha
+        </label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          placeholder="Digite sua senha (mínimo 6 caracteres)"
+          [class.invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+        >
+        <div
+          *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+          class="error-message"
+        >
+          <small *ngIf="registerForm.get('password')?.errors?.['required']">
+            <i class="fas fa-exclamation-circle"></i> Senha é obrigatória
+          </small>
+          <small *ngIf="registerForm.get('password')?.errors?.['minlength']">
+            <i class="fas fa-exclamation-circle"></i> Mínimo 6 caracteres
+          </small>
+        </div>
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+
+      <div *ngIf="successMessage" class="alert alert-success">
+        {{ successMessage }}
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="registerForm.invalid || isLoading"
+        >
+          <span *ngIf="!isLoading">
+            <i class="fas fa-user-plus"></i> Registrar
+          </span>
+          <span *ngIf="isLoading">
+            <i class="fas fa-spinner fa-spin"></i> Processando...
+          </span>
+        </button>
+
+        <div class="login-link">
+          Já tem uma conta? <a routerLink="/login">Faça login</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
