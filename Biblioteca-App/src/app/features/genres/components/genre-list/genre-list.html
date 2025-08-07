@@ -1,0 +1,40 @@
+<div class="page-container">
+  <header class="page-header">
+    <h1>Gêneros</h1>
+    <button class="btn btn-primary">Adicionar Gênero</button>
+  </header>
+
+  <div *ngIf="isLoading; else content" class="loading-indicator">
+    Carregando...
+  </div>
+
+  <ng-template #content>
+    <div *ngIf="genres.length > 0; else noGenres" class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let genre of genres">
+            <td>{{ genre.id }}</td>
+            <td>{{ genre.name }}</td>
+            <td class="actions">
+              <button class="btn btn-secondary">Editar</button>
+              <button class="btn btn-danger">Excluir</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ng-template #noGenres>
+      <div class="empty-state">
+        <p>Nenhum gênero cadastrado.</p>
+      </div>
+    </ng-template>
+  </ng-template>
+</div>
