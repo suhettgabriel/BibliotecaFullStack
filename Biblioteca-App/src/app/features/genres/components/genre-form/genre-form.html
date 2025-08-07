@@ -1,0 +1,21 @@
+<div class="page-container">
+  <header class="page-header">
+    <h1>{{ isEditMode ? 'Editar' : 'Novo' }} Gênero</h1>
+  </header>
+
+  <form [formGroup]="genreForm" (ngSubmit)="onSubmit()" class="form-container">
+    <div class="form-field">
+      <label for="name">Nome</label>
+      <input id="name" type="text" formControlName="name" />
+      <div *ngIf="genreForm.get('name')?.touched && genreForm.get('name')?.errors" class="error-message">
+        <small *ngIf="genreForm.get('name')?.errors?.['required']">O nome é obrigatório.</small>
+        <small *ngIf="genreForm.get('name')?.errors?.['maxlength']">O nome deve ter no máximo 100 caracteres.</small>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary" [disabled]="genreForm.invalid">Salvar</button>
+      <a routerLink="/genres" class="btn btn-secondary">Cancelar</a>
+    </div>
+  </form>
+</div>

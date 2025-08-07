@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HeaderComponent } from './header';
+import { GenreFormComponent } from './genre-form';
 
-describe('Header', () => {
-  let component: HeaderComponent;
-  let fixture: ComponentFixture<HeaderComponent>;
+describe('GenreForm', () => {
+  let component: GenreFormComponent;
+  let fixture: ComponentFixture<GenreFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [HeaderComponent]
+      declarations: [GenreFormComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(HeaderComponent);
+    fixture = TestBed.createComponent(GenreFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

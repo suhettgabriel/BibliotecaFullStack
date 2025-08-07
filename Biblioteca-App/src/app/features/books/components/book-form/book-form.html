@@ -1,0 +1,53 @@
+<div class="page-container">
+  <header class="page-header">
+    <h1>{{ isEditMode ? 'Editar' : 'Novo' }} Livro</h1>
+  </header>
+
+  <form [formGroup]="bookForm" (ngSubmit)="onSubmit()" class="form-container">
+    <div class="form-field">
+      <label for="title">Título</label>
+      <input id="title" type="text" formControlName="title" />
+      <div *ngIf="bookForm.get('title')?.touched && bookForm.get('title')?.errors" class="error-message">
+        <small *ngIf="bookForm.get('title')?.errors?.['required']">O título é obrigatório.</small>
+        <small *ngIf="bookForm.get('title')?.errors?.['maxlength']">O título deve ter no máximo 200 caracteres.</small>
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label for="year">Ano de Publicação</label>
+      <input id="year" type="number" formControlName="year" />
+      <div *ngIf="bookForm.get('year')?.touched && bookForm.get('year')?.errors" class="error-message">
+        <small *ngIf="bookForm.get('year')?.errors?.['required']">O ano é obrigatório.</small>
+        <small *ngIf="bookForm.get('year')?.errors?.['min']">O ano deve ser maior que 1000.</small>
+        <small *ngIf="bookForm.get('year')?.errors?.['max']">O ano não pode ser no futuro.</small>
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label for="authorId">Autor</label>
+      <select id="authorId" formControlName="authorId">
+        <option value="">Selecione um autor</option>
+        <option *ngFor="let author of authors" [value]="author.id">{{ author.name }}</option>
+      </select>
+      <div *ngIf="bookForm.get('authorId')?.touched && bookForm.get('authorId')?.errors" class="error-message">
+        <small *ngIf="bookForm.get('authorId')?.errors?.['required']">O autor é obrigatório.</small>
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label for="genreId">Gênero</label>
+      <select id="genreId" formControlName="genreId">
+        <option value="">Selecione um gênero</option>
+        <option *ngFor="let genre of genres" [value]="genre.id">{{ genre.name }}</option>
+      </select>
+      <div *ngIf="bookForm.get('genreId')?.touched && bookForm.get('genreId')?.errors" class="error-message">
+        <small *ngIf="bookForm.get('genreId')?.errors?.['required']">O gênero é obrigatório.</small>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary" [disabled]="bookForm.invalid">Salvar</button>
+      <a routerLink="/books" class="btn btn-secondary">Cancelar</a>
+    </div>
+  </form>
+</div>

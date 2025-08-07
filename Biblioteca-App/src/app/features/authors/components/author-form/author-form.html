@@ -1,0 +1,21 @@
+<div class="page-container">
+  <header class="page-header">
+    <h1>{{ isEditMode ? 'Editar' : 'Novo' }} Autor</h1>
+  </header>
+
+  <form [formGroup]="authorForm" (ngSubmit)="onSubmit()" class="form-container">
+    <div class="form-field">
+      <label for="name">Nome</label>
+      <input id="name" type="text" formControlName="name" />
+      <div *ngIf="authorForm.get('name')?.touched && authorForm.get('name')?.errors" class="error-message">
+        <small *ngIf="authorForm.get('name')?.errors?.['required']">O nome é obrigatório.</small>
+        <small *ngIf="authorForm.get('name')?.errors?.['maxlength']">O nome deve ter no máximo 100 caracteres.</small>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary" [disabled]="authorForm.invalid">Salvar</button>
+      <a routerLink="/authors" class="btn btn-secondary">Cancelar</a>
+    </div>
+  </form>
+</div>
