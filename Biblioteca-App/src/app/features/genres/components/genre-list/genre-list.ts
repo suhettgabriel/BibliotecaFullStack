@@ -22,7 +22,7 @@ export class GenreListComponent implements OnInit {
 
   loadGenres(): void {
     this.isLoading = true;
-    this.genreService.getAll().subscribe({
+    this.genreService.getAllWithBookCount().subscribe({
       next: (data) => {
         this.genres = data;
         this.isLoading = false;

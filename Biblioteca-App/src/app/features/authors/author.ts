@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { map, Observable } from 'rxjs';
+import { forkJoin, map, Observable } from 'rxjs';
+import { BookService } from '../../features/books/book';
 
 export interface Author {
   id: number;
@@ -17,10 +18,24 @@ export type AuthorRequest = Omit<Author, 'id'>;
 })
 export class AuthorService {
   private http = inject(HttpClient);
+    private bookService = inject(BookService);
   private apiUrl = `${environment.apiUrl}/authors`;
 
-// src/app/features/authors/author.ts (serviço)
-getAll(): Observable<Author[]> {
+  getAllWithBookCount(): Observable<Author[]> {
+    return forkJoin({
+      authors: this.http.get<Author[]>(this.apiUrl),
+      books: this.bookService.getAll()
+    }).pipe(
+      map(({authors, books}) => {
+        return authors.map(author => ({
+          ...author,
+          bookCount: books.filter(book => book.authorId === author.id).length
+        }));
+      })
+    );
+  }
+
+  getAll(): Observable<Author[]> {
   return this.http.get<Author[]>(this.apiUrl).pipe(
     map(authors => authors.map(author => ({
       ...author,

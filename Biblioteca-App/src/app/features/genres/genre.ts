@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { map, Observable } from 'rxjs';
-
+import { forkJoin, map, Observable } from 'rxjs';
+import { BookService } from '../../features/books/book';
 export interface Genre {
   id: number;
   name: string;
@@ -15,9 +15,25 @@ export type GenreRequest = Omit<Genre, 'id'>;
 @Injectable({
   providedIn: 'root'
 })
+
 export class GenreService {
   private http = inject(HttpClient);
+    private bookService = inject(BookService);
   private apiUrl = `${environment.apiUrl}/genres`;
+
+    getAllWithBookCount(): Observable<Genre[]> {
+    return forkJoin({
+      genres: this.http.get<Genre[]>(this.apiUrl),
+      books: this.bookService.getAll()
+    }).pipe(
+      map(({genres, books}) => {
+        return genres.map(genre => ({
+          ...genre,
+          bookCount: books.filter(book => book.genreId === genre.id).length
+        }));
+      })
+    );
+  }
 
   getAll(): Observable<Genre[]> {
     return this.http.get<Genre[]>(this.apiUrl).pipe(

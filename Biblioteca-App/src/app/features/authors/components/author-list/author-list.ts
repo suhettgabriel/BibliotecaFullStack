@@ -21,19 +21,18 @@ export class AuthorListComponent implements OnInit {
   }
 
   loadAuthors(): void {
-    this.isLoading = true;
-    this.authorService.getAll().subscribe({
-      next: (data) => {
-        this.authors = data;
-        this.isLoading = false;
-      },
-      error: (err) => {
-        console.error('Erro ao carregar autores', err);
-        this.isLoading = false;
-      }
-    });
-  }
-
+  this.isLoading = true;
+  this.authorService.getAllWithBookCount().subscribe({
+    next: (data) => {
+      this.authors = data;
+      this.isLoading = false;
+    },
+    error: (err) => {
+      console.error('Erro ao carregar autores', err);
+      this.isLoading = false;
+    }
+  });
+}
   deleteAuthor(id: number): void {
     if (confirm('Tem certeza que deseja excluir este autor?')) {
       this.authorService.delete(id).subscribe({
