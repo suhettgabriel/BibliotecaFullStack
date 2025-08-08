@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 /* Variáveis de tema */
 :root {
   --primary: #4361ee;
@@ -111,7 +113,7 @@ h1, h2, h3 {
     color: white;
 
     &:hover {
-      background-color: darken(#f72585, 10%);
+      background-color: color.adjust(#f72585, $lightness: -10%);
     }
   }
 
@@ -293,6 +295,7 @@ table {
     justify-content: space-between;
   }
 }
+
 .error-message {
   color: #dc3545;
   font-size: 0.875rem;
