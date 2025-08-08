@@ -1,0 +1,59 @@
+<div class="main-container">
+  <div class="page-container">
+    <header class="page-header">
+      <h1><i class="fas fa-tags"></i> Gêneros Literários</h1>
+      <a routerLink="/genres/new" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Adicionar Gênero
+      </a>
+    </header>
+
+    <div *ngIf="isLoading; else content" class="loading-indicator">
+      <i class="fas fa-spinner fa-spin fa-2x"></i>
+      <p>Carregando gêneros...</p>
+    </div>
+
+    <ng-template #content>
+      <div *ngIf="genres.length > 0; else noGenres" class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Livros Associados</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let genre of genres">
+              <td>
+                <div class="genre-info">
+                  <i class="fas fa-tag"></i>
+                  <span>{{ genre.name }}</span>
+                </div>
+              </td>
+              <td>{{ genre.bookCount || 0 }}</td>
+              <td class="actions">
+                <a [routerLink]="['/genres/edit', genre.id]" class="btn btn-secondary" title="Editar">
+                  <i class="fas fa-edit"></i>
+                </a>
+                <button (click)="deleteGenre(genre.id)" class="btn btn-danger" title="Excluir">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ng-template #noGenres>
+        <div class="empty-state">
+          <i class="fas fa-tags fa-4x"></i>
+          <h3>Nenhum gênero cadastrado</h3>
+          <p>Comece adicionando seu primeiro gênero literário</p>
+          <a routerLink="/genres/new" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Adicionar Gênero
+          </a>
+        </div>
+      </ng-template>
+    </ng-template>
+  </div>
+</div>

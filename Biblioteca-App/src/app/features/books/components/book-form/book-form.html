@@ -1,0 +1,66 @@
+<div class="main-container">
+  <div class="page-container">
+    <header class="page-header">
+      <h1>
+        <i class="fas" [class.fa-plus]="!isEditMode" [class.fa-edit]="isEditMode"></i>
+        {{ isEditMode ? 'Editar Livro' : 'Novo Livro' }}
+      </h1>
+      <a routerLink="/books" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Voltar
+      </a>
+    </header>
+
+    <div class="card">
+      <form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
+        <div class="form-field">
+          <label for="title"><i class="fas fa-heading"></i> Título do Livro</label>
+          <input id="title" type="text" formControlName="title" placeholder="Digite o título do livro">
+          <div *ngIf="bookForm.get('title')?.touched && bookForm.get('title')?.errors" class="error-message">
+            <small *ngIf="bookForm.get('title')?.errors?.['required']"><i class="fas fa-exclamation-circle"></i> O título é obrigatório</small>
+            <small *ngIf="bookForm.get('title')?.errors?.['maxlength']"><i class="fas fa-exclamation-circle"></i> Título muito longo</small>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="year"><i class="fas fa-calendar-alt"></i> Ano de Publicação</label>
+          <input id="year" type="number" formControlName="year" placeholder="Digite o ano de publicação">
+          <div *ngIf="bookForm.get('year')?.touched && bookForm.get('year')?.errors" class="error-message">
+            <small *ngIf="bookForm.get('year')?.errors?.['required']"><i class="fas fa-exclamation-circle"></i> O ano é obrigatório</small>
+            <small *ngIf="bookForm.get('year')?.errors?.['min'] || bookForm.get('year')?.errors?.['max']"><i class="fas fa-exclamation-circle"></i> Ano inválido</small>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="authorId"><i class="fas fa-user-edit"></i> Autor</label>
+          <select id="authorId" formControlName="authorId">
+            <option value="" disabled selected>Selecione um autor</option>
+            <option *ngFor="let author of authors" [value]="author.id">{{ author.name }}</option>
+          </select>
+          <div *ngIf="bookForm.get('authorId')?.touched && bookForm.get('authorId')?.errors" class="error-message">
+            <small *ngIf="bookForm.get('authorId')?.errors?.['required']"><i class="fas fa-exclamation-circle"></i> Selecione um autor</small>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="genreId"><i class="fas fa-tag"></i> Gênero</label>
+          <select id="genreId" formControlName="genreId">
+            <option value="" disabled selected>Selecione um gênero</option>
+            <option *ngFor="let genre of genres" [value]="genre.id">{{ genre.name }}</option>
+          </select>
+          <div *ngIf="bookForm.get('genreId')?.touched && bookForm.get('genreId')?.errors" class="error-message">
+            <small *ngIf="bookForm.get('genreId')?.errors?.['required']"><i class="fas fa-exclamation-circle"></i> Selecione um gênero</small>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" routerLink="/books" class="btn btn-secondary">
+            <i class="fas fa-times"></i> Cancelar
+          </button>
+          <button type="submit" class="btn btn-primary" [disabled]="bookForm.invalid">
+            <i class="fas fa-save"></i> {{ isEditMode ? 'Atualizar' : 'Salvar' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
